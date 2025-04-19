@@ -123,8 +123,7 @@ export async function fetchFilteredInvoices(
 
 export async function fetchInvoicesPages(query: string) {
   try {
-    const data = await sql`SELECT COUNT(*)
-    FROM invoices
+    const data = await sql`SELECT COUNT(*) FROM invoices
     JOIN customers ON invoices.customer_id = customers.id
     WHERE
       customers.name ILIKE ${`%${query}%`} OR
@@ -170,13 +169,7 @@ export async function fetchInvoiceById(id: string) {
 export async function fetchCustomers() {
   try {
     const customers = await sql<CustomerField[]>`
-      SELECT
-        id,
-        name
-      FROM customers
-      ORDER BY name ASC
-    `;
-
+      SELECT id, name FROM customers ORDER BY name ASC`;
     return customers;
   } catch (err) {
     console.error("Database Error:", err);
