@@ -42,16 +42,16 @@ export async function authenticate(
 ) {
   try {
     await signIn("credentials", formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.cause) {
+  } catch (Err) {
+    if (Err instanceof AuthError) {
+      switch (Err.cause) {
         case "CredentialsSignin":
           return "Invalid credentials.";
         default:
           return "Something went wrong.";
       }
     }
-    throw error;
+    throw Err;
   }
 }
 
@@ -79,6 +79,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
       VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `;
   } catch (error) {
+    console.log(error);
     return {
       message: "Database Error: Failed to Create Invoice.",
     };
@@ -115,6 +116,8 @@ export async function updateInvoice(
         WHERE id = ${id}
       `;
   } catch (error) {
+    console.log(error);
+
     return {
       message: "Database Error: Failed to Update Invoice.",
     };
