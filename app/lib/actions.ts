@@ -1,6 +1,6 @@
 "use server";
 
-import { string, z } from "zod";
+import { z } from "zod";
 import postgres from "postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -44,7 +44,7 @@ export async function authenticate(
     await signIn("credentials", formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
+      switch (error.cause) {
         case "CredentialsSignin":
           return "Invalid credentials.";
         default:
